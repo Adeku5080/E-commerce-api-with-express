@@ -4,6 +4,7 @@ require("express-async-errors");
 const express = require("express");
 const morgan = require("morgan");
 const connect = require("./database/connect");
+const authRouter = require("./routes/auth")
 const notFound = require("./middlewares/notFound")
 const errorHandler = require("./middlewares/errorHandler");
 
@@ -11,18 +12,26 @@ const app = express();
 
 const PORT = 8000;
 
-app.use(express.json());
-app.use(morgan("dev"));
+
+//database
+connect(process.env.MONGO_URI);
+
 
 app.get("/index", async(req, res,next) => {
     console.log("adeku")
   throw new Error("unauthorized");
 });
 
+
+
+//middlewares
+app.use("/api/v1/auth",authRouter)
+app.use(express.json());
+app.use(morgan("dev"));
 app.use(notFound)
 app.use(errorHandler);
-connect(process.env.MONGO_URI);
 
+//server 
 app.listen(PORT, () => {
   console.log(`you are listening on port ${PORT}`);
 });
