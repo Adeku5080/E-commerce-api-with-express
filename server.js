@@ -25,9 +25,12 @@ app.get("/index", async(req, res,next) => {
 
 
 //middlewares
-app.use("/api/v1/auth",authRouter)
+
 app.use(express.json());
 app.use(morgan("dev"));
+
+app.use("/api/v1/auth",authRouter)
+
 app.use(notFound)
 app.use(errorHandler);
 
