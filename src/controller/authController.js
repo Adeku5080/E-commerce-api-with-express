@@ -17,6 +17,12 @@ const register = async (req, res) => {
     email: req.body.email,
     password: req.body.password,
   };
+
+  //make first registered user an admin
+  const isFirstAccount = (await User.countDocuments({})) === 0;
+
+  userData.role = isFirstAccount ? "admin" : "user";
+
   const user = await User.create(userData);
 
   return res.status(200).json({ user });
