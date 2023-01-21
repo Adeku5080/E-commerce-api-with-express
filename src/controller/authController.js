@@ -37,19 +37,64 @@ const register = async (req, res) => {
     expiresIn: process.env.JWT_LIFETIME,
   });
 
-  const oneDay = 1000 * 60 * 60 * 24
-  res.cookie('token',token,{
-    httpOnly :true,
-    expires :new Date(Date.now() + oneDay)
-  })
-
+  const oneDay = 1000 * 60 * 60 * 24;
+  res.cookie("token", token, {
+    httpOnly: true,
+    expires: new Date(Date.now() + oneDay),
+    secure: process.env.NODE_ENV === "production",
+    signed: true,
+  });
 
   res.status(201).json({ user: tokenUser });
 };
 
-const login = async () => {
-  res.send("login");
+const login = async (req, res) => {
+
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({
+      msg: "email and password is required",
+    });
+  }
+
+  
+
+  const user = await User.findOne({ email: email });
+
+  if (!user) {
+    return res.status(401).json({ msg: "unauthorized" });
+  }
+
+  const isPasswordCorrect = await user.comparePassword(password);
+
+  if (!isPasswordCorrect) {
+    return res.status(401).json({ msg: "unAuthenticated" });
+  }
+
+  const tokenUser = {
+    name: user.name,
+    id: user._id,
+    role: user.role,
+  };
+
+  const token = jwt.sign(tokenUser, "process.env.JWT_SECRET", {
+    expiresIn: process.env.JWT_LIFETIME,
+  });
+
+  const oneDay = 1000 * 60 * 60 * 24;
+  res.cookie("token", token, {
+    httpOnly: true,
+    expires: new Date(Date.now() + oneDay),
+    secure: process.env.NODE_ENV === "production",
+    signed: true,
+  });
+ 
+  res.status(201).json({ user: tokenUser });
+
 };
+
+
 const logout = async () => {
   res.send("logout");
 };

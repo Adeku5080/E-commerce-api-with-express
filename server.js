@@ -27,12 +27,13 @@ app.get("/index", async(req, res,next) => {
 
 //middlewares
 app.use(morgan("dev"));
-app.use(cookieParser())
+
 app.use(express.json());
+app.use(cookieParser(process.env.JWT_SECRET))
 
 
 app.get("/",(req,res)=>{
-  console.log(req.cookies)
+  console.log(req.signedCookies)
   res.send("ecommerce-api")
 })
 
