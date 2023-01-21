@@ -3,6 +3,7 @@ require("express-async-errors");
 
 const express = require("express");
 const morgan = require("morgan");
+const cookieParser = require("cookie-parser")
 const connect = require("./database/connect");
 const authRouter = require("./routes/auth")
 const notFound = require("./middlewares/notFound")
@@ -25,9 +26,15 @@ app.get("/index", async(req, res,next) => {
 
 
 //middlewares
-
-app.use(express.json());
 app.use(morgan("dev"));
+app.use(cookieParser())
+app.use(express.json());
+
+
+app.get("/",(req,res)=>{
+  console.log(req.cookies)
+  res.send("ecommerce-api")
+})
 
 app.use("/api/v1/auth",authRouter)
 

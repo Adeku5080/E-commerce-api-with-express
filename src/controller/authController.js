@@ -1,8 +1,9 @@
 require("express-async-errors");
-const jwt = require('jsonwebtoken')
+const jwt = require("jsonwebtoken");
 const User = require("../model/User");
-const createJwt = require("../../utils/index")
-const isTokenValid = require("../../utils/index")
+const createJwt = require("../../utils/index");
+const isTokenValid = require("../../utils/index");
+const attachCookeToResponse = require("../../utils/index");
 
 const register = async (req, res) => {
   const { email } = req.body;
@@ -28,20 +29,23 @@ const register = async (req, res) => {
   const user = await User.create(userData);
 
   const tokenUser = {
-    name : user.name,
-    id : user._id,
-    role : user.role
-  }
-  const token = jwt.sign(tokenUser,'process.env.JWT_SECRET',{expiresIn : process.env.JWT_LIFETIME})
+    name: user.name,
+    id: user._id,
+    role: user.role,
+  };
+  const token = jwt.sign(tokenUser, "process.env.JWT_SECRET", {
+    expiresIn: process.env.JWT_LIFETIME,
+  });
 
   const oneDay = 1000 * 60 * 60 * 24
   res.cookie('token',token,{
     httpOnly :true,
-    expires :new Date(Date.now()) 
+    expires :new Date(Date.now() + oneDay)
   })
 
-    res.status(201).json({user:tokenUser})
-}
+
+  res.status(201).json({ user: tokenUser });
+};
 
 const login = async () => {
   res.send("login");

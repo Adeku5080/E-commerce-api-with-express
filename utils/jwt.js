@@ -12,6 +12,15 @@ const createJwt = (payload) => {
 
 const isTokenValid = ({ token }) => jwt.verify(token, process.env.JWT_SECRET);
 
+// const oneDay = 1000 * 60 * 60 * 24
+
+// const attachCookeToResponse =(token)=>{
+//   res.cookie9('token',token,{
+//     htppOnly:true,
+//     expires : new Date(Date.now() + oneDay)
+//   })
+// }
+
 module.exports = {
   createJwt,
   isTokenValid,
