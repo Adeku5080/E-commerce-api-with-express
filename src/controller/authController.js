@@ -49,7 +49,6 @@ const register = async (req, res) => {
 };
 
 const login = async (req, res) => {
-
   const { email, password } = req.body;
 
   if (!email || !password) {
@@ -57,8 +56,6 @@ const login = async (req, res) => {
       msg: "email and password is required",
     });
   }
-
-  
 
   const user = await User.findOne({ email: email });
 
@@ -89,14 +86,17 @@ const login = async (req, res) => {
     secure: process.env.NODE_ENV === "production",
     signed: true,
   });
- 
-  res.status(201).json({ user: tokenUser });
 
+  res.status(201).json({ user: tokenUser });
 };
 
+const logout = async (req,res) => {
+  res.cookie("token",'logout',{
+    httpOnly:true,
+    expires:new Date(Date.now())
+  })
 
-const logout = async () => {
-  res.send("logout");
+  res.status(200).json({msg : "logout succesful"})
 };
 
 module.exports = { login, register, logout };
