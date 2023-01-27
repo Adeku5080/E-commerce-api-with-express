@@ -1,11 +1,21 @@
-userModel = require("../model/User");
+const User = require("../model/User");
 
 const getAllUsers = async (req, res) => {
-  res.send("get all users");
+  const users = await User.find({ role: "user" }).select("-password");
+
+  res.status(200).json({ users });
 };
 
 const getSingleUser = async (req, res) => {
-  res.send("get a users");
+  const id = req.params.id;
+
+  const user = await User.findOne({_id:id }).select("-password");
+
+  if (!user) {
+    return res.status(404);
+  }
+
+  res.status(200).json({ user });
 };
 
 const showCurrentUser = async (req, res) => {
@@ -17,15 +27,13 @@ const updateUser = async (req, res) => {
 };
 
 const updateUserPassword = async (req, res) => {
-    res.send("update a user");
-  };
-  
-
+  res.send("update a user");
+};
 
 module.exports = {
   getAllUsers,
   getSingleUser,
   showCurrentUser,
   updateUser,
-  updateUserPassword
+  updateUserPassword,
 };
