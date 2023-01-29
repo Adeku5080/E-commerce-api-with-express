@@ -8,7 +8,6 @@ const authenticateUser = (req, res, next) => {
   if (!token) {
     return res.status(401).json({ msg: "Authentication failed" });
   }
-  console.log(process.env.JWT_SECRET);
 
   try {
     const { name, id, role } = jwt.verify(token, process.env.JWT_SECRET);
@@ -25,10 +24,7 @@ const authorizePermissions = (...roles) => {
       return res.status(401).json({ msg: "unauthorized" });
     }
     next();
-
   };
-
 };
-
 
 module.exports = { authenticateUser, authorizePermissions };
