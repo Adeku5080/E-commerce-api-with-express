@@ -33,7 +33,7 @@ const register = async (req, res) => {
     id: user._id,
     role: user.role,
   };
-  const token = jwt.sign(tokenUser, "process.env.JWT_SECRET", {
+  const token = jwt.sign(tokenUser, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_LIFETIME,
   });
 
@@ -75,7 +75,7 @@ const login = async (req, res) => {
     role: user.role,
   };
 
-  const token = jwt.sign(tokenUser, "process.env.JWT_SECRET", {
+  const token = jwt.sign(tokenUser, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_LIFETIME,
   });
 

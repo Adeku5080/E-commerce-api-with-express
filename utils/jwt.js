@@ -10,7 +10,7 @@ const createJwt = (payload) => {
   return token;
 };
 
-const isTokenValid = ({ token }) => jwt.verify(token, process.env.JWT_SECRET);
+const isTokenValid = (token) => jwt.verify(token, process.env.JWT_SECRET);
 
 // const oneDay = 1000 * 60 * 60 * 24
 
