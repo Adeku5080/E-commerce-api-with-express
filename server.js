@@ -7,6 +7,7 @@ const cookieParser = require("cookie-parser");
 const connect = require("./database/connect");
 const authRouter = require("./routes/auth");
 const userRouter = require("./routes/user");
+const productRouter = require("./routes/product")
 const notFound = require("./src/middlewares/notFound");
 const errorHandler = require("./src/middlewares/errorHandler");
 const cors = require("cors");
@@ -37,6 +38,8 @@ app.get("/", (req, res) => {
 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/user", userRouter);
+app.use("/api/v1/produts",productRouter)
+
 
 app.use(notFound);
 app.use(errorHandler);
