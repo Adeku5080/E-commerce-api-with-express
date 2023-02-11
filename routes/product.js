@@ -17,12 +17,12 @@ const productRouter = express.Router();
 productRouter.route("/").get(getAllProducts);
 productRouter
   .route("/")
-  .post([authenticateUser, authorizePermissions], createProduct);
+  .post([authenticateUser, authorizePermissions("admin")], createProduct);
 productRouter
   .route("/:id")
   .get(getSingleProduct)
-  .delete([authenticateUser, authorizePermissions], deleteProduct)
-  .patch([authenticateUser, authorizePermissions], updateProduct);
+  .delete([authenticateUser, authorizePermissions("admin")], deleteProduct)
+  .patch([authenticateUser, authorizePermissions("admin")], updateProduct);
 
 productRouter
   .route("/uploadImage")
