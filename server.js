@@ -32,7 +32,8 @@ app.use(express.json());
 app.use(cookieParser(process.env.JWT_SECRET));
 app.use(cors());
 
-// app.use(express.static('./public'))
+app.use(express.static('./public'))
+app.use(fileUpload())
 
 app.get("/", (req, res) => {
   console.log(req.signedCookies);

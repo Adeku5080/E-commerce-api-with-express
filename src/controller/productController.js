@@ -1,5 +1,5 @@
 const Product = require("../model/Product");
-
+const path = require( "path")
 const createProduct = async (req, res) => {
   try {
     req.body.user = req.user.id;
@@ -46,12 +46,31 @@ const deleteProduct = async (req, res) => {
   try {
     const id = req.params.id;
     Product.findOneAndDelete({ _id: id });
-    res.status(204).json({ msg: "delered succesfully" });
+    res.status(204).json({ msg: "deleted succesfully" });
   } catch (err) {
     console.log(err);
   }
 };
-const uploadImage = async (req, res) => {};
+const uploadImage = async (req, res) => {
+  if (!req.files) {
+    return res.status(400).json({ msg: "bad request error" });
+  }
+
+  const productImage = req.files.image;
+
+  if (!productImage.mimetype.startsWith("image")) {
+    return res.status(400).json({ msg: "please upload image" });
+  }
+
+  const maxSize = 1024 *1024
+  if(productImage.size > maxSize){
+    return res.status(400).json({msg:"Please upload image smaller than 1mb"})
+  }
+
+  const imagePath = path.join(__dirname,'../public/uploads/' + `${productImage.name}`)
+  await productImage.mv(imagePath)
+  res.status(200).json({image:`upload/${productImage}`})
+};
 
 module.exports = {
   createProduct,
