@@ -26,6 +26,6 @@ productRouter
 
 productRouter
   .route("/uploadImage")
-  .post([authenticateUser, authorizePermissions], uploadImage);
+  .post([authenticateUser, authorizePermissions("admin")], uploadImage);
 
 module.exports = productRouter;

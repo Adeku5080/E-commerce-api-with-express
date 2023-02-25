@@ -52,6 +52,7 @@ const deleteProduct = async (req, res) => {
   }
 };
 const uploadImage = async (req, res) => {
+  
   if (!req.files) {
     return res.status(400).json({ msg: "bad request error" });
   }
@@ -69,7 +70,7 @@ const uploadImage = async (req, res) => {
 
   const imagePath = path.join(__dirname,'../public/uploads/' + `${productImage.name}`)
   await productImage.mv(imagePath)
-  res.status(200).json({image:`upload/${productImage}`})
+  res.status(200).json({image:`upload/${productImage.name}`})
 };
 
 module.exports = {
