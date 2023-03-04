@@ -5,9 +5,12 @@ const express = require("express");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const connect = require("./database/connect");
+
 const authRouter = require("./routes/auth");
 const userRouter = require("./routes/user");
 const productRouter = require("./routes/product");
+const reviewRouter = require("./routes/review")
+
 const notFound = require("./src/middlewares/notFound");
 const errorHandler = require("./src/middlewares/errorHandler");
 const cors = require("cors");
@@ -43,6 +46,9 @@ app.get("/", (req, res) => {
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/product", productRouter);
+app.use("/api/v1/review", reviewRouter);
+
+
 
 app.use(notFound);
 app.use(errorHandler);
@@ -51,4 +57,3 @@ app.use(errorHandler);
 app.listen(PORT, () => {
   console.log(`you are listening on port ${PORT}`);
 });
-  

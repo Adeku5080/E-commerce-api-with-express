@@ -1,7 +1,6 @@
 const express = require("express");
 const {
   authorizePermissions,
-  auhthenticateUsers,
   authenticateUser,
 } = require("../src/middlewares/auth");
 const {

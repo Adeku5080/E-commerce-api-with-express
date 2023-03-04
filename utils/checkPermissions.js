@@ -1,10 +1,10 @@
+// fix check permissions,throwing custom error
 const checkPermissions = (requestUser, resourceUserId) => {
-  // console.log(requestUser)
-  // console.log(resourceUserId)
-  // console.log(typeof requestUser)
+
   if (requestUser.role === "admin") return;
-  if (requestUser.userId === resourceUserId.toString()) return;
-  return res.status(401).json({msg : 'unauthorized'})
+  if (requestUser.id === resourceUserId.toString()) return;
+  console.log('unauthorized,you cannot perform this request')
 };
 
 module.exports = checkPermissions;
+ 
