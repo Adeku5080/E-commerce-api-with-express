@@ -9,7 +9,8 @@ const connect = require("./database/connect");
 const authRouter = require("./routes/auth");
 const userRouter = require("./routes/user");
 const productRouter = require("./routes/product");
-const reviewRouter = require("./routes/review")
+const reviewRouter = require("./routes/review");
+const orderRouter = require("./routes/order");
 
 const notFound = require("./src/middlewares/notFound");
 const errorHandler = require("./src/middlewares/errorHandler");
@@ -18,7 +19,7 @@ const fileUpload = require("express-fileupload");
 
 const app = express();
 
-const PORT = 8000;
+const PORT = 7000;
 
 //database
 connect(process.env.MONGO_URI);
@@ -35,8 +36,8 @@ app.use(express.json());
 app.use(cookieParser(process.env.JWT_SECRET));
 app.use(cors());
 
-app.use(express.static('./public'))
-app.use(fileUpload())
+app.use(express.static("./public"));
+app.use(fileUpload());
 
 app.get("/", (req, res) => {
   console.log(req.signedCookies);
@@ -47,8 +48,7 @@ app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/product", productRouter);
 app.use("/api/v1/review", reviewRouter);
-
-
+app.use("/api/v1/order", orderRouter);
 
 app.use(notFound);
 app.use(errorHandler);

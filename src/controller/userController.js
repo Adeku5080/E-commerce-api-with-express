@@ -1,12 +1,14 @@
 const User = require("../model/User");
 const { checkPermissions } = require("../../utils/index");
 
+//get all users
 const getAllUsers = async (req, res) => {
   const users = await User.find({ role: "user" }).select("-password");
 
   res.status(200).json({ users });
 };
 
+//get a single user
 const getSingleUser = async (req, res) => {
   const id = req.params.id;
 
@@ -23,6 +25,7 @@ const showCurrentUser = async (req, res) => {
   res.status(200).json({ user: req.user });
 };
 
+//update user
 const updateUser = async (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
@@ -58,6 +61,7 @@ const updateUser = async (req, res) => {
   res.status(200).json({ user: tokenUser });
 };
 
+//update user password
 const updateUserPassword = async (req, res) => {
   const oldPassword = req.body.oldPassword;
   const newPassword = req.body.newPassword;
